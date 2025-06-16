@@ -22,7 +22,7 @@ const CastCrewDirectory = () => {
       experience: "5+ years",
       rate: "₹5,000/day",
       rating: 4.8,
-      image: "/placeholder-avatar.jpg",
+      image: "https://images.unsplash.com/photo-1494790108755-2616b612b789?w=150&h=150&fit=crop&crop=face",
       skills: ["Drama", "Comedy", "Dance"],
       available: true,
       description: "Experienced actress with strong background in Telugu cinema"
@@ -35,7 +35,7 @@ const CastCrewDirectory = () => {
       experience: "7+ years",
       rate: "₹8,000/day",
       rating: 4.9,
-      image: "/placeholder-avatar.jpg",
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
       skills: ["Cinematography", "Drone", "Color Grading"],
       available: true,
       description: "Award-winning cinematographer specializing in short films"
@@ -48,7 +48,7 @@ const CastCrewDirectory = () => {
       experience: "4+ years",
       rate: "₹3,500/day",
       rating: 4.7,
-      image: "/placeholder-avatar.jpg",
+      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
       skills: ["Premiere Pro", "After Effects", "DaVinci"],
       available: false,
       description: "Creative editor with expertise in narrative storytelling"
@@ -61,7 +61,7 @@ const CastCrewDirectory = () => {
       experience: "10+ years",
       rate: "₹12,000/day",
       rating: 4.9,
-      image: "/placeholder-avatar.jpg",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
       skills: ["Direction", "Screenwriting", "Production"],
       available: true,
       description: "Veteran director with multiple award-winning short films"
@@ -74,7 +74,7 @@ const CastCrewDirectory = () => {
       experience: "3+ years",
       rate: "₹4,000/day",
       rating: 4.6,
-      image: "/placeholder-avatar.jpg",
+      image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face",
       skills: ["Method Acting", "Classical Dance", "Singing"],
       available: true,
       description: "Versatile actress with training in classical arts"
@@ -87,7 +87,7 @@ const CastCrewDirectory = () => {
       experience: "6+ years",
       rate: "₹6,000/day",
       rating: 4.8,
-      image: "/placeholder-avatar.jpg",
+      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
       skills: ["Sound Design", "Mixing", "Foley"],
       available: true,
       description: "Professional sound engineer with state-of-the-art equipment"
@@ -159,72 +159,80 @@ const CastCrewDirectory = () => {
           </CardContent>
         </Card>
 
-        {/* Results */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Results - Half Card Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredTalents.map((talent) => (
-            <Card key={talent.id} className="group hover:shadow-lg transition-all duration-300 border-0 shadow-sm">
-              <CardHeader className="pb-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center space-x-3">
-                    <Avatar className="h-12 w-12">
-                      <AvatarImage src={talent.image} alt={talent.name} />
-                      <AvatarFallback>{talent.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                    </Avatar>
+            <Card key={talent.id} className="group hover:shadow-lg transition-all duration-300 border-0 shadow-sm overflow-hidden">
+              <div className="flex">
+                {/* Left side - Profile Image */}
+                <div className="w-32 h-32 flex-shrink-0 relative">
+                  <Avatar className="w-full h-full rounded-none">
+                    <AvatarImage 
+                      src={talent.image} 
+                      alt={talent.name} 
+                      className="object-cover w-full h-full"
+                    />
+                    <AvatarFallback className="rounded-none w-full h-full text-2xl">
+                      {talent.name.split(' ').map(n => n[0]).join('')}
+                    </AvatarFallback>
+                  </Avatar>
+                  <Badge className={`absolute top-2 left-2 text-xs ${talent.available ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+                    {talent.available ? "Available" : "Busy"}
+                  </Badge>
+                </div>
+
+                {/* Right side - Content */}
+                <div className="flex-1 p-4">
+                  <div className="flex items-start justify-between mb-2">
                     <div>
-                      <CardTitle className="text-lg font-semibold">{talent.name}</CardTitle>
-                      <div className="flex items-center space-x-2 text-sm text-gray-600">
+                      <h3 className="font-semibold text-lg text-gray-900">{talent.name}</h3>
+                      <div className="flex items-center gap-2 mb-1">
                         <Badge variant="secondary" className="text-xs">{talent.role}</Badge>
-                        <div className="flex items-center">
+                        <div className="flex items-center text-sm text-gray-600">
                           <Star className="h-3 w-3 text-yellow-500 mr-1" />
                           <span>{talent.rating}</span>
                         </div>
                       </div>
                     </div>
+                    <Button variant="ghost" size="sm" className="p-1">
+                      <Heart className="h-4 w-4" />
+                    </Button>
                   </div>
-                  <Button variant="ghost" size="sm">
-                    <Heart className="h-4 w-4" />
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <CardDescription className="text-gray-600">
-                  {talent.description}
-                </CardDescription>
-                
-                <div className="space-y-2">
-                  <div className="flex items-center text-sm text-gray-600">
-                    <MapPin className="h-4 w-4 mr-2" />
-                    {talent.location}
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Experience: {talent.experience}</span>
-                    <span className="font-semibold text-teal-600">{talent.rate}</span>
-                  </div>
-                </div>
 
-                <div className="flex flex-wrap gap-1">
-                  {talent.skills.map((skill, index) => (
-                    <Badge key={index} variant="outline" className="text-xs">
-                      {skill}
-                    </Badge>
-                  ))}
-                </div>
+                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                    {talent.description}
+                  </p>
+                  
+                  <div className="space-y-2 mb-3">
+                    <div className="flex items-center text-sm text-gray-600">
+                      <MapPin className="h-3 w-3 mr-1" />
+                      {talent.location}
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">{talent.experience}</span>
+                      <span className="font-semibold text-teal-600">{talent.rate}</span>
+                    </div>
+                  </div>
 
-                <div className="flex items-center justify-between pt-2">
-                  <Badge className={talent.available ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}>
-                    {talent.available ? "Available" : "Busy"}
-                  </Badge>
-                  <div className="flex space-x-2">
-                    <Button variant="outline" size="sm">
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    {talent.skills.slice(0, 3).map((skill, index) => (
+                      <Badge key={index} variant="outline" className="text-xs px-2 py-0">
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" className="flex-1 text-xs">
                       View Profile
                     </Button>
-                    <Button size="sm" className="bg-gradient-to-r from-teal-600 to-orange-500">
+                    <Button size="sm" className="flex-1 bg-gradient-to-r from-teal-600 to-orange-500 text-xs">
                       <MessageCircle className="h-3 w-3 mr-1" />
                       Chat
                     </Button>
                   </div>
                 </div>
-              </CardContent>
+              </div>
             </Card>
           ))}
         </div>
