@@ -10,7 +10,14 @@ import {
   DropdownMenuSeparator, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
-import { Bell, MessageCircle, User, Settings, LogOut } from "lucide-react";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { Bell, MessageCircle, User, Settings, LogOut, Menu, Inbox } from "lucide-react";
 
 interface HeaderProps {
   activeTab: string;
@@ -20,6 +27,7 @@ interface HeaderProps {
 const Header = ({ activeTab, setActiveTab }: HeaderProps) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [hasNotifications, setHasNotifications] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navigationItems = [
     { id: "home", label: "Home" },
@@ -27,8 +35,14 @@ const Header = ({ activeTab, setActiveTab }: HeaderProps) => {
     { id: "contests", label: "Contests" },
     { id: "scripts", label: "Scripts" },
     { id: "films", label: "Films" },
+    { id: "inbox", label: "Inbox" },
     { id: "feed", label: "Community" }
   ];
+
+  const handleNavClick = (tabId: string) => {
+    setActiveTab(tabId);
+    setMobileMenuOpen(false);
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-orange-100 shadow-sm">
@@ -51,13 +65,16 @@ const Header = ({ activeTab, setActiveTab }: HeaderProps) => {
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                className={`px-3 py-2 text-sm font-medium rounded-md transition-colors relative ${
                   activeTab === item.id
                     ? "bg-gray-100 text-gray-900"
                     : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                 }`}
               >
                 {item.label}
+                {item.id === "inbox" && hasNotifications && (
+                  <Badge className="absolute -top-1 -right-1 w-2 h-2 p-0 bg-red-500"></Badge>
+                )}
               </button>
             ))}
           </nav>
@@ -66,19 +83,53 @@ const Header = ({ activeTab, setActiveTab }: HeaderProps) => {
           <div className="flex items-center space-x-3">
             {isLoggedIn ? (
               <>
-                {/* Notifications */}
-                <Button variant="ghost" size="sm" className="relative">
+                {/* Notifications - Desktop only */}
+                <Button variant="ghost" size="sm" className="relative hidden md:flex">
                   <Bell className="h-4 w-4" />
                   {hasNotifications && (
                     <Badge className="absolute -top-1 -right-1 w-2 h-2 p-0 bg-red-500"></Badge>
                   )}
                 </Button>
 
-                {/* Messages */}
-                <Button variant="ghost" size="sm" className="relative">
+                {/* Messages - Desktop only */}
+                <Button variant="ghost" size="sm" className="relative hidden md:flex">
                   <MessageCircle className="h-4 w-4" />
                   <Badge className="absolute -top-1 -right-1 w-2 h-2 p-0 bg-teal-500"></Badge>
                 </Button>
+
+                {/* Mobile Menu */}
+                <Drawer open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+                  <DrawerTrigger asChild>
+                    <Button variant="ghost" size="sm" className="md:hidden">
+                      <Menu className="h-4 w-4" />
+                    </Button>
+                  </DrawerTrigger>
+                  <DrawerContent>
+                    <DrawerHeader>
+                      <DrawerTitle>Navigation</DrawerTitle>
+                    </DrawerHeader>
+                    <div className="p-4 space-y-2">
+                      {navigationItems.map((item) => (
+                        <button
+                          key={item.id}
+                          onClick={() => handleNavClick(item.id)}
+                          className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
+                            activeTab === item.id
+                              ? "bg-gray-100 text-gray-900 font-medium"
+                              : "text-gray-600 hover:bg-gray-50"
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            {item.label}
+                            {item.id === "inbox" && hasNotifications && (
+                              <Badge className="w-2 h-2 p-0 bg-red-500"></Badge>
+                            )}
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </DrawerContent>
+                </Drawer>
 
                 {/* User Menu */}
                 <DropdownMenu>

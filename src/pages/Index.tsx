@@ -11,6 +11,7 @@ import ContestSection from "@/components/ContestSection";
 import FilmLibrary from "@/components/FilmLibrary";
 import WritersRoom from "@/components/WritersRoom";
 import CommunityFeed from "@/components/CommunityFeed";
+import Inbox from "@/components/Inbox";
 import SubscriptionPlans from "@/components/SubscriptionPlans";
 import Footer from "@/components/Footer";
 
@@ -42,6 +43,10 @@ const Index = () => {
         
         <TabsContent value="films" className="mt-0">
           <FilmLibrary />
+        </TabsContent>
+        
+        <TabsContent value="inbox" className="mt-0">
+          <Inbox />
         </TabsContent>
         
         <TabsContent value="feed" className="mt-0">
