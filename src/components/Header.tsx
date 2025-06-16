@@ -10,7 +10,6 @@ import {
   DropdownMenuSeparator, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
-import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Bell, MessageCircle, User, Settings, LogOut } from "lucide-react";
 
 interface HeaderProps {
@@ -21,6 +20,15 @@ interface HeaderProps {
 const Header = ({ activeTab, setActiveTab }: HeaderProps) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [hasNotifications, setHasNotifications] = useState(true);
+
+  const navigationItems = [
+    { id: "home", label: "Home" },
+    { id: "directory", label: "Cast & Crew" },
+    { id: "contests", label: "Contests" },
+    { id: "scripts", label: "Scripts" },
+    { id: "films", label: "Films" },
+    { id: "feed", label: "Community" }
+  ];
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-orange-100 shadow-sm">
@@ -37,15 +45,22 @@ const Header = ({ activeTab, setActiveTab }: HeaderProps) => {
             </div>
           </div>
 
-          {/* Navigation Tabs */}
-          <TabsList className="grid grid-cols-6 w-auto bg-gray-100/50">
-            <TabsTrigger value="home" className="text-sm">Home</TabsTrigger>
-            <TabsTrigger value="directory" className="text-sm">Cast & Crew</TabsTrigger>
-            <TabsTrigger value="contests" className="text-sm">Contests</TabsTrigger>
-            <TabsTrigger value="scripts" className="text-sm">Scripts</TabsTrigger>
-            <TabsTrigger value="films" className="text-sm">Films</TabsTrigger>
-            <TabsTrigger value="feed" className="text-sm">Community</TabsTrigger>
-          </TabsList>
+          {/* Navigation */}
+          <nav className="hidden md:flex items-center space-x-1">
+            {navigationItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setActiveTab(item.id)}
+                className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                  activeTab === item.id
+                    ? "bg-gray-100 text-gray-900"
+                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
 
           {/* Right Side Actions */}
           <div className="flex items-center space-x-3">
