@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -49,7 +50,7 @@ const Header = ({ activeTab, setActiveTab }: HeaderProps) => {
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
+          <Link to="/" className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-to-br from-teal-600 to-orange-500 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-lg">TF</span>
             </div>
@@ -57,7 +58,7 @@ const Header = ({ activeTab, setActiveTab }: HeaderProps) => {
               <h1 className="text-xl font-bold text-gray-900">Telugu Films</h1>
               <p className="text-xs text-gray-500">Creator Marketplace</p>
             </div>
-          </div>
+          </Link>
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center space-x-1">
@@ -167,11 +168,11 @@ const Header = ({ activeTab, setActiveTab }: HeaderProps) => {
               </>
             ) : (
               <div className="flex items-center space-x-2">
-                <Button variant="ghost" onClick={() => setIsLoggedIn(true)}>
-                  Login
+                <Button variant="ghost" asChild>
+                  <Link to="/login">Login</Link>
                 </Button>
-                <Button className="bg-gradient-to-r from-teal-600 to-orange-500 hover:from-teal-700 hover:to-orange-600">
-                  Sign Up
+                <Button className="bg-gradient-to-r from-teal-600 to-orange-500 hover:from-teal-700 hover:to-orange-600" asChild>
+                  <Link to="/signup">Sign Up</Link>
                 </Button>
               </div>
             )}
